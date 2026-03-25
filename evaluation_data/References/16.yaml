@@ -1,0 +1,63 @@
+topology_template:
+  node_templates:
+    DockerEngine:
+      type: tosca.nodes.Container.Runtime
+      properties:
+        DockerEngineURL: get_input: dockerUrl
+        DockerEngineCertificate: ~
+      requirements:
+        - host: compute
+
+   
+     
+    MyTinyToDoDockerContainer:
+      type: tosca.nodes.Container.Application
+      properties:
+        # environment_variables: 
+        uris: []
+        labels:
+          HAPROXY_GROUP: external
+      
+      requirements:
+        - host: docker_runtime
+        - storage: object
+        - network:  IPv4_Network
+        - database-connection:  MySQL-DB
+    MySQL-DBMS:
+      type: tosca.nodes.DBMS
+      properties:
+        DBMSUser: root
+        DBMSPassword: get_input: DBMSPassword
+        DBMSPort: 3306
+
+    MySQL-DB:
+      type: tosca.nodes.Database
+      properties:
+        DBName: todo
+        DBUser: get_input: DBUser
+        DBPassword: get_input: DBPassword
+      requirements:
+        - host: MySQL-DBMS
+    object:
+      type: tosca.nodes.Storage.ObjectStorage
+      properties:
+        name: object
+    compute:
+      type: tosca.nodes.Compute
+      capabilities:
+        endpoint:
+          properties:
+            network_name: PUBLIC
+            ports:
+              http_port:
+                protocol: tcp
+                source: 80
+              https_port:
+                protocol: tcp
+                source: 443
+    IPv4_Network:
+      type: Network
+      properties:
+        ip_version: 4
+      capabilities:
+        link: {}

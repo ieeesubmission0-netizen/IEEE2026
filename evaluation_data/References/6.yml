@@ -1,0 +1,80 @@
+tosca_definitions_version: alien_dsl_1_4_0
+
+metadata:
+  template_name: nodecellar-topology
+  template_version: 2.2.0-SNAPSHOT
+  template_author: alien4cloud
+
+description: A nodecellar application topology template with nodecellar and mongodb.
+
+imports:
+  - mongo-types:2.2.0-SNAPSHOT
+  - nodecellar-type:2.2.0-SNAPSHOT
+  - nodejs-type:2.2.0-SNAPSHOT
+  - tosca-normative-types:1.0.0-ALIEN20
+
+topology_template:
+  description: A Javascript Sample Application with Node.js and MongoDB
+  inputs:
+    mongo_port:
+      type: integer
+      required: true
+      default: 27017
+      constraints:
+        - in_range: [8000, 65535]
+    nocecellar_port:
+      type: integer
+      required: true
+      default: 8088
+  node_templates:
+    MongoHost:
+      type: tosca.nodes.Compute
+      capabilities:
+        os:
+          properties:
+            architecture: x86_64
+            type: linux
+            distribution: ubuntu
+    Network:
+      type: tosca.nodes.network.Network
+      properties:
+        ip_version: 4
+    NodejsHost:
+      type: tosca.nodes.Compute
+      requirements:
+        - network_link: Network
+          
+      capabilities:
+        os:
+          properties:
+            architecture: x86_64
+            type: linux
+    Nodejs:
+      type: tosca.nodes.WebServer
+      requirements:
+        - host: NodejsHost
+            
+    Nodecellar:
+      type:  tosca.nodes.WebApplication
+      properties:
+        port: { get_input: nocecellar_port }
+      requirements:
+        - host: Nodejs
+           
+        - database_connection: Mongod
+       
+    Mongod:
+      type: tosca.nodes.Database
+      properties:
+        port: { get_input: mongo_port }
+      requirements:
+        - host: MongoHost
+      
+      capabilities:
+        endpoint:
+          properties:
+            port: { get_input: mongo_port }
+            protocol: tcp
+            secure: false
+            network_name: PRIVATE
+            initiator: source

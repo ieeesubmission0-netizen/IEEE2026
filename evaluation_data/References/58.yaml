@@ -1,0 +1,50 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+imports:
+  - indigo_custom_types: https://raw.githubusercontent.com/indigo-dc/tosca-types/master/custom_types.yaml
+
+description: >
+  TOSCA test for launching compute node mounting a onedata space
+
+topology_template:
+ 
+  node_templates:
+   
+    onedata_client_node:
+      type: tosca.nodes.Compute
+      capabilities:
+        endpoint:
+          properties:
+            network_name: PUBLIC
+            ports:
+              oneclient_5555:
+                protocol: tcp
+                source: 5555
+              oneclient_443:
+                protocol: tcp
+                source: 443
+        scalable:
+          properties:
+            count: 1
+        host:
+          properties:
+            num_cpus: 1
+            mem_size: 1 GB
+        os:
+          properties:
+            type: linux 
+            distribution: ubuntu 
+            #version: 14.04
+      requirements:
+        - local_storage: my_onedata_storage
+          
+
+    my_onedata_storage:
+      type: tosca.nodes.Storage.BlockStorage
+      properties:
+        oneprovider_host: ["oneprovider.com", "twoprovider.net"]
+        dataspace: ["space1","space2"]
+        onezone_endpoint: http://server.com
+        credential:
+          token: some_token
+          token_type: token

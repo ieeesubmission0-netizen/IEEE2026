@@ -1,0 +1,70 @@
+topology_template:
+  node_templates:
+    compute:
+      type: tosca.nodes.Compute
+      capabilities:
+        endpoint:
+          properties:
+            network_name: PUBLIC
+            ports:
+              http_port:
+                protocol: tcp
+                source: 80
+              https_port:
+                protocol: tcp
+                source: 443
+
+    NGINX:
+      type: tosca.nodes.WebServer
+      requirements:
+        - host: compute
+  
+    RealWorld-Application-Angular:
+      type: tosca.nodes.WebApplication
+      properties:
+        AppName: RealWorldApplication-Angular
+      requirements:
+       - host: NGINX
+       - dependency:  Java
+       - app_connection:   RealWorld-Application-Backend
+
+    Java:
+      type: tosca.nodes.SoftwareComponent
+      properties:
+        component_version: ~
+        admin_credential: ~
+      requirements:
+       - host: compute
+    RealWorld-Application-Backend:
+      type: tosca.nodes.WebApplication
+      properties:
+        AppName: RealWorldApplication
+        Port: get_input: BackendPort
+        context_root: ~
+      requirements:
+       - host: NGINX
+       - database_connection: MySQL-DB
+    
+    MySQL-DB:
+      type: tosca.nodes.Database
+      properties:
+        name: ~
+        port: ~
+        user: ~
+        password: ~
+        DBName: realWorld
+        DBUser: user
+        DBPassword: pass
+      requirements:
+        - host: MySQL-DBMS
+    MySQL-DBMS:
+      type: tosca.nodes.DBMS
+      properties:
+        DBMSUser: root
+        DBMSPassword: root
+        DBMSPort: 3306
+        root_password: ~
+        port: ~
+    requirements:
+     - host: compute
+  
