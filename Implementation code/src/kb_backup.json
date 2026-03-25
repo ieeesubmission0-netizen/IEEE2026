@@ -1,0 +1,42 @@
+[
+  {
+    "id": "7bd72b06-b0c3-42e2-b3b9-18354a925f22",
+    "metadata": {
+      "timestamp": "2026-02-20T11:35:22.634137",
+      "reformulated_request": "I want to develop a web application that runs on the Java Runtime Environment since it is a Java-based application. The data should be stored in a PostgreSQL database. The frontend will use React, and the backend will use Spring Boot. The frontend and backend should be deployed on separate virtual machines.",
+      "user_request": "I want a Java web application in which the backend stores and manages data, while the frontend handles user requests and delivers responses through a main interface. The frontend and backend should be deployed in separate environments."
+    }
+  },
+  {
+    "id": "ef47b87c-9c40-4cc3-9ed2-52d20e01db28",
+    "metadata": {
+      "timestamp": "2026-02-20T11:35:22.779066",
+      "user_request": "I want a web application; the traffic is evenly distributed across servers and supports seamless connectivity",
+      "reformulated_request": "I want a web application which runs on a virtual machine. A load balancer routes traffic to the application , which is connected to a network."
+    }
+  },
+  {
+    "id": "2aa7ead3-0726-4bb0-9709-4f73e716506b",
+    "metadata": {
+      "timestamp": "2026-02-20T11:35:22.826841",
+      "user_request": "I want a static website. For that, I need Nginx to serve the site, a storage space to store my files, and a virtual machine with ample RAM, 3 CPUs, and an appropriate operating system.",
+      "reformulated_request": "I want a static website. For that, I need Nginx to serve the site, block storage to store my files, and a virtual machine with 20 GB of RAM, 3 CPUs, and a Linux operating system."
+    }
+  },
+  {
+    "id": "2188a2f0-834c-4e70-a3cc-0bf0c503006d",
+    "metadata": {
+      "user_request": "I want to deploy an application with a JavaScript frontend for the user interface, a Node.js backend to handle business logic and APIs, Elasticsearch for advanced search and analytics, and object storage for managing and storing files and other data efficiently",
+      "timestamp": "2026-02-20T11:35:22.877546",
+      "reformulated_request": "I want to build an application with a React-based JavaScript frontend hosted on a virtual machine, along with a Node.js backend to handle business logic and APIs. The application will connect to Elasticsearch for advanced search and analytics, and will rely on object storage for efficiently managing and storing files and other data. Both Elasticsearch and the object storage will be deployed on the Node.js server, which is also hosted on the virtual machine."
+    }
+  },
+  {
+    "id": "8af6dc9a-c6f7-4724-9333-a27e1dbb0f59",
+    "metadata": {
+      "timestamp": "2026-02-20T11:38:16.663795",
+      "user_request": "i want to deploy database on virtual machine",
+      "reformulated_request": "The solution requires a MONGODB  database instance deployed on a virtual machine."
+    }
+  }
+]
